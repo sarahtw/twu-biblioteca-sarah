@@ -63,4 +63,11 @@ public class ViewTest {
                         "Choose an option\n\n" +
                         "1 - List of books"));
     }
+
+    @Test
+    public void shouldSayIsAnIvalidOption(){
+        String terminalMessage = view.chooseMenuOption("view books");
+
+        assertThat(terminalMessage, containsString("Please select a valid option!"));
+    }
 }

@@ -44,4 +44,12 @@ public class View {
                 "Choose an option\n\n" +
                 "1 - List of books";
     }
+
+    public String chooseMenuOption(String selected_menu_option) {
+        if (selected_menu_option.equals("1")) {
+            return this.showBooklistWithDetails();
+        } else {
+            return "Please select a valid option!";
+        }
+    }
 }
