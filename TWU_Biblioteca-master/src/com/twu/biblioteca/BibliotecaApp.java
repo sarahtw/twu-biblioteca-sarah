@@ -4,8 +4,8 @@ public class BibliotecaApp {
 
     public static void main(String[] args) {
         View view = new View();
-        String welcomeMessage = view.showWelcomeMessage();
-        System.out.println(welcomeMessage);
-        System.out.println(view.showBooklistWithDetails());
+
+        System.out.println(view.showWelcomeMessage());
+        System.out.println(view.showMenuOptions());
     }
 }

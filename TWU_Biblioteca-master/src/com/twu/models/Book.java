@@ -34,4 +34,8 @@ public class Book {
     public Integer getYear() {
         return this.year;
     }
+
+    public String getBookDetails() {
+        return this.getName() + " - " + this.getAuthor() + " - " + this.getYear().toString() + "\n";
+    }
 }

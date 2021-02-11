@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.Assert.*;
 
 public class ViewTest {
@@ -51,5 +52,15 @@ public class ViewTest {
         assertTrue(list.contains(childishBookName) &&
                 list.contains(childishBookAuthor) &&
                 list.contains(childishBookYear));
+    }
+
+    @Test
+    public void shouldReturnMenuOption(){
+        String terminalMessage = view.showMenuOptions();
+
+        assertThat(terminalMessage,
+                containsString("-----MENU-----\n" +
+                        "Choose an option\n\n" +
+                        "1 - List of books"));
     }
 }

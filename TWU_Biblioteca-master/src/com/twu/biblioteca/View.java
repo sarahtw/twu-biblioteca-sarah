@@ -6,37 +6,42 @@ import com.twu.models.Book;
 import java.util.ArrayList;
 
 public class View {
-
-    private Database database = new Database();
+    private final ArrayList<Book> books;
+    
+    public View() {
+        this.books = new Database().bookList;
+        
+    }
 
     public String showWelcomeMessage() {
         return "Welcome to Biblioteca. Your one-stop-shop for great book titles in Bangalore!";
     }
 
     public String showBooklist() {
-        ArrayList<Book> bookList = database.bookList;
 
-        String message = "";
+        StringBuilder message = new StringBuilder();
 
-        for (Book book: bookList) {
-            message += book.getName() + "\n";
+        for (Book book: books) {
+            message.append(book.getName()).append("\n");
         }
 
-        return message;
+        return message.toString();
     }
 
     public String showBooklistWithDetails() {
-        ArrayList<Book> bookList = database.bookList;
 
-        String message = "";
+        StringBuilder message = new StringBuilder();
 
-        for (Book book: bookList) {
-            message += book.getName() + " - ";
-            message += book.getAuthor() + " - ";
-            message += book.getYear() + "\n";
+        for (Book book: books) {
+            message.append(book.getBookDetails());
         }
 
-        return message;
+        return message.toString();
     }
 
+    public String showMenuOptions() {
+        return "-----MENU-----\n" +
+                "Choose an option\n\n" +
+                "1 - List of books";
+    }
 }
