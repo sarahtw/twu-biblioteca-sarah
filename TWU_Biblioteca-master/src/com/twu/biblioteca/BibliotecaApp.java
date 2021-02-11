@@ -6,8 +6,6 @@ public class BibliotecaApp {
         View view = new View();
         String welcomeMessage = view.showWelcomeMessage();
         System.out.println(welcomeMessage);
-
-//        String booklistMessage = view.showBooklist();
-        System.out.println(view.showBooklist());
+        System.out.println(view.showBooklistWithDetails());
     }
 }
