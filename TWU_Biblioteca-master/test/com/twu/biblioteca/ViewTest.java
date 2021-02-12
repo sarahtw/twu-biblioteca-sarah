@@ -1,7 +1,7 @@
 package com.twu.biblioteca;
 
-import com.twu.database.Database;
 import com.twu.models.Book;
+import com.twu.services.BookManagement;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,7 +16,7 @@ import static org.junit.Assert.*;
 public class ViewTest {
 
     private View view;
-    private Database database;
+    private ArrayList<Book> books;
 
     private final ByteArrayOutputStream outputContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
@@ -24,7 +24,7 @@ public class ViewTest {
     @Before
     public void setUp() throws Exception {
         view = new View();
-        database = new Database();
+        books = new BookManagement().availableBooks;
         System.setOut(new PrintStream(outputContent));
     }
 
@@ -43,27 +43,12 @@ public class ViewTest {
     public void shouldReturnBooklist() {
 
         String list = view.showBooklist();
-        ArrayList<Book> booklist = database.bookList;
 
-        String childishBookName = booklist.get(0).getName();
-        String detectiveBookName = booklist.get(1).getName();
+        String childishBookName = books.get(0).getName();
+        String detectiveBookName = books.get(0).getName();
 
         assertTrue(list.contains(childishBookName) &&
                 list.contains(detectiveBookName));
-    }
-
-    @Test
-    public void shouldReturnBookListWithDetails(){
-        String list = view.showBooklistWithDetails();
-        ArrayList<Book> bookList = database.bookList;
-
-        String childishBookName = bookList.get(0).getName();
-        String childishBookAuthor = bookList.get(0).getAuthor();
-        String childishBookYear = bookList.get(0).getYear().toString();
-
-        assertTrue(list.contains(childishBookName) &&
-                list.contains(childishBookAuthor) &&
-                list.contains(childishBookYear));
     }
 
     @Test
@@ -75,17 +60,25 @@ public class ViewTest {
     }
 
     @Test
+    public void shouldQuitTheApplication(){
+        view.chooseMenuOption("0");
+
+        assertThat(outputContent.toString(), containsString("See ya!"));
+    }
+
+    @Test
+    public void shouldReturnBookListWithDetails(){
+        view.chooseMenuOption("1");
+
+        assertThat(outputContent.toString(),
+                containsString("The Little Prince - The Little Prince - 1943"));
+    }
+
+    @Test
     public void shouldSayIsAnInvalidOption(){
         view.chooseMenuOption("view books");
 
         assertThat(outputContent.toString(), containsString("Please select a valid option!"));
-    }
-
-    @Test
-    public void shouldQuitTheApplication(){
-        view.chooseMenuOption("2");
-
-        assertThat(outputContent.toString(), containsString("See ya!"));
     }
 
 }

@@ -1,16 +1,17 @@
 package com.twu.biblioteca;
 
-import com.twu.database.Database;
+//import com.twu.database.Database;
 import com.twu.models.Book;
+import com.twu.services.BookManagement;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class View {
-    private final ArrayList<Book> books;
+    private final ArrayList<Book> availableBooks;
 
     public View() {
-        this.books = new Database().bookList;
+        this.availableBooks = new BookManagement().availableBooks;
     }
 
     public String showWelcomeMessage() {
@@ -35,14 +36,14 @@ public class View {
             Choose an option
 
             1 - List of books
-            2 - Quit the application""");
+            0 - Quit the application""");
     }
 
     public String showBooklist() {
 
         StringBuilder message = new StringBuilder();
 
-        for (Book book: books) {
+        for (Book book: availableBooks) {
             message.append(book.getName()).append("\n");
         }
 
@@ -53,7 +54,7 @@ public class View {
 
         StringBuilder message = new StringBuilder();
 
-        for (Book book: books) {
+        for (Book book: availableBooks) {
             message.append(book.getBookDetails());
         }
 
@@ -62,15 +63,15 @@ public class View {
 
     public boolean chooseMenuOption(String selected_menu_option) {
         switch (selected_menu_option) {
+            case "0" -> {
+                System.out.println(this.showQuitTheApplicationMessage());
+                return true;
+            }
             case "1" -> {
                 System.out.println(this.showBooklistWithDetails());
                 this.showBooklist();
                 this.showMenuOptions();
                 return false;
-            }
-            case "2" -> {
-                System.out.println(this.showQuitTheApplicationMessage());
-                return true;
             }
             default -> {
                 System.out.println("Please select a valid option!");

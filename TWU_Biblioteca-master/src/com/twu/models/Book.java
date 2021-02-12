@@ -1,14 +1,20 @@
 package com.twu.models;
 
 public class Book {
+    public Integer id;
     public String name;
     public String author;
     public Integer year;
 
-    public Book(String name, String author, Integer year) {
+    public Book(Integer id, String name, String author, Integer year) {
+        this.id = id;
         this.name = name;
         this.author = author;
         this.year = year;
+    }
+
+    public Integer getId() {
+        return id;
     }
 
     public void setName(String name) {
@@ -36,6 +42,6 @@ public class Book {
     }
 
     public String getBookDetails() {
-        return this.getName() + " - " + this.getAuthor() + " - " + this.getYear().toString() + "\n";
+        return this.getId() + " - "+ this.getName() + " - " + this.getAuthor() + " - " + this.getYear().toString() + "\n";
     }
 }
