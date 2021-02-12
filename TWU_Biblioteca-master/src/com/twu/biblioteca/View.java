@@ -94,7 +94,7 @@ public class View {
     }
 
     public void chooseBook(String book_name) {
-        if (bookManagement.isBookAvailabe(book_name)) {
+        if (bookManagement.isBookAvailableToCheckout(book_name)) {
             bookManagement.changeBookStatus(book_name, false);
             System.out.println("Thank you! Enjoy the book.");
         } else {
@@ -107,9 +107,11 @@ public class View {
     }
 
     public void returnBook(String book_name) {
-        if (!bookManagement.isBookAvailabe(book_name)) {
-            bookManagement.changeBookStatus(book_name, true);
+        if (bookManagement.isBookAvailableToReturn(book_name)) {
             System.out.println("Thank you for returning the book");
+            bookManagement.changeBookStatus(book_name, true);
+        } else {
+            System.out.println("That is not a valid book to return.");
         }
     }
 }

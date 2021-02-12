@@ -90,10 +90,17 @@ public class ViewTest {
     }
 
     @Test
-    public void shouldNotifiedSuccessfulReturnMessage(){
+    public void shouldNotifiedSuccessfulBookReturnMessage(){
         view.returnBook("Chromatica");
 
         assertThat(outputContent.toString(), containsString("Thank you for returning the book"));
+    }
+
+    @Test
+    public void shouldNotifiedUnsuccessfulBookReturnMessage(){
+        view.returnBook("Beyoncé");
+
+        assertThat(outputContent.toString(), containsString("That is not a valid book to return."));
     }
 
 }

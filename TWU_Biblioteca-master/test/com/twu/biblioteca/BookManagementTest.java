@@ -7,9 +7,8 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
-import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 public class BookManagementTest {
 
@@ -21,7 +20,6 @@ public class BookManagementTest {
         bookManagement = new BookManagement();
         availableBooks = bookManagement.books;
     }
-
 
     @Test
     public void shouldCheckoutBook(){
@@ -40,7 +38,20 @@ public class BookManagementTest {
 
     @Test
     public void shouldReturnIfBookIsAvailable(){
-        assertThat(bookManagement.isBookAvailabe("Amor I love you"), is(false));
-        assertThat(bookManagement.isBookAvailabe("The Little Prince"), is(true));
+        assertThat(bookManagement.isBookAvailableToCheckout("Amor I love you"), is(false));
+        assertThat(bookManagement.isBookAvailableToCheckout("The Little Prince"), is(true));
+    }
+
+    @Test
+    public void shouldReturnIfBookIsRented(){
+        assertThat(bookManagement.isBookAvailableToReturn("Amor I love you"), is(false));
+        assertThat(bookManagement.isBookAvailableToReturn("The Little Prince"), is(false));
+        assertThat(bookManagement.isBookAvailableToReturn("Chromatica"), is(true));
+    }
+
+    @Test
+    public void shouldReturnBookByName(){
+        assertNull(bookManagement.getBookByName("Amor I love you"));
+        assertNotNull(bookManagement.getBookByName("The Little Prince"));
     }
 }

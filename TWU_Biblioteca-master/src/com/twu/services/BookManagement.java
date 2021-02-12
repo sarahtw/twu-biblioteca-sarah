@@ -34,12 +34,22 @@ public class BookManagement {
         }
     }
 
-    public Boolean isBookAvailabe(String book_name) {
+    public Book getBookByName(String book_name) {
         for (Book book : books) {
             if (book.getName().equals(book_name)) {
-                return book.isAvailable();
+                return book;
             }
         }
-        return false;
+        return null;
+    }
+
+    public Boolean isBookAvailableToCheckout(String book_name){
+        Book book = this.getBookByName(book_name);
+        return book != null && book.isAvailable();
+    }
+
+    public Boolean isBookAvailableToReturn(String book_name){
+        Book book = this.getBookByName(book_name);
+        return book != null && !book.isAvailable();
     }
 }
