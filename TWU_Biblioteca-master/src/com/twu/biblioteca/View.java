@@ -85,7 +85,7 @@ public class View {
 
     public void chooseBook(String book_name) {
         if (bookManagement.isBookAvailabe(book_name)) {
-            bookManagement.checkoutBook(book_name);
+            bookManagement.changeBookStatus(book_name, true);
             System.out.println("Thank you! Enjoy the book.");
         } else {
             System.out.println("Sorry, that book is not available.");

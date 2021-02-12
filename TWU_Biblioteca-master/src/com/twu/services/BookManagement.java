@@ -26,10 +26,10 @@ public class BookManagement {
         return books;
     }
 
-    public void checkoutBook(String book_name) {
+    public void changeBookStatus(String book_name, Boolean status) {
         for (Book book : books) {
             if (book.getName().equals(book_name)) {
-                book.setAvailable(false);
+                book.setAvailable(status);
             }
         }
     }

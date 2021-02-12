@@ -24,11 +24,18 @@ public class BookManagementTest {
 
 
     @Test
-    public void shouldCheckoutABook(){
-        bookManagement.checkoutBook("The Little Prince");
+    public void shouldCheckoutBook(){
+        bookManagement.changeBookStatus("The Little Prince", false);
 
         Boolean actual = availableBooks.get(0).isAvailable();
         assertThat(actual, is(false));
+    }
+    @Test
+    public void shouldReturnBook(){
+        bookManagement.changeBookStatus("Chromatica", true);
+
+        Boolean actual = availableBooks.get(0).isAvailable();
+        assertThat(actual, is(true));
     }
 
     @Test
