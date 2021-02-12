@@ -1,6 +1,7 @@
 package com.twu.biblioteca;
 
 import com.twu.models.Book;
+import com.twu.view.View;
 import com.twu.services.BookManagement;
 import org.junit.After;
 import org.junit.Before;

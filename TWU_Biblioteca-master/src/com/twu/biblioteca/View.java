@@ -7,11 +7,11 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class View {
-    private final ArrayList<Book> availableBooks;
+    private final ArrayList<Book> books;
     public BookManagement bookManagement = new BookManagement();
 
     public View() {
-        this.availableBooks = bookManagement.books;
+        this.books = bookManagement.books;
     }
 
     public String showWelcomeMessage() {
@@ -41,14 +41,14 @@ public class View {
             0 - Quit the application""");
     }
 
-    public String showBooklistWithDetails() {
+    public String showBookListWithDetails() {
 
         StringBuilder message = new StringBuilder();
         message.append("""
                 -----BOOKLIST-----
                 """);
 
-        for (Book book: availableBooks) {
+        for (Book book: books) {
             if (book.isAvailable()) {
                 message.append(book.getBookDetails());
             }
@@ -64,8 +64,8 @@ public class View {
                 return true;
             }
             case "1" -> {
-                System.out.println(this.showBooklistWithDetails());
-                this.showBooklistWithDetails();
+                System.out.println(this.showBookListWithDetails());
+                this.showBookListWithDetails();
                 this.showMenuOptions();
                 return false;
             }
