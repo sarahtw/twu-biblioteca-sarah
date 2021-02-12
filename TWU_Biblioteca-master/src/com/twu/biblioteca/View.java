@@ -1,6 +1,5 @@
 package com.twu.biblioteca;
 
-//import com.twu.database.Database;
 import com.twu.models.Book;
 import com.twu.services.BookManagement;
 
@@ -9,9 +8,10 @@ import java.util.Scanner;
 
 public class View {
     private final ArrayList<Book> availableBooks;
+    public BookManagement bookManagement = new BookManagement();
 
     public View() {
-        this.availableBooks = new BookManagement().availableBooks;
+        this.availableBooks = bookManagement.availableBooks;
     }
 
     public String showWelcomeMessage() {
@@ -84,5 +84,8 @@ public class View {
         return "See ya!";
     }
 
-
+    public void chooseBook(String book_name) {
+        bookManagement.checkoutBook(book_name);
+        System.out.println("Thank you! Enjoy the book");
+    }
 }

@@ -26,10 +26,10 @@ public class BookManagement {
         return books;
     }
 
-    public static void checkoutBook(Integer book_id) {
+    public static void checkoutBook(String book_name) {
         ArrayList<Book> bookListAux = availableBooks;
         for (Book book: availableBooks) {
-            if (book.getId().equals(book_id)) {
+            if (book.getName().equals(book_name)) {
                 rentedBooks.add(book);
                 bookListAux.remove(book);
             }

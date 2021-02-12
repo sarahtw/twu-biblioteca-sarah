@@ -31,7 +31,7 @@ public class BookManagementTest {
         String expectedAvailableBooks = String.valueOf(availableBooks.size() - 1);
         String expectedRentedBooks = String.valueOf(rentedBooks.size() + 1);
 
-        bookManagement.checkoutBook(1);
+        bookManagement.checkoutBook("The Little Prince");
 
         String actualAvailableBooks = String.valueOf(availableBooks.size());
         String actualRentedBooks = String.valueOf(rentedBooks.size());

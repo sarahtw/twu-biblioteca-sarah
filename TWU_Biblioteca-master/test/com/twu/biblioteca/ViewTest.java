@@ -81,4 +81,11 @@ public class ViewTest {
         assertThat(outputContent.toString(), containsString("Please select a valid option!"));
     }
 
+    @Test
+    public void shouldReturnCheckoutSuccessMessage(){
+        view.chooseBook("The Little Prince");
+
+        assertThat(outputContent.toString(), containsString("Thank you! Enjoy the book"));
+    }
+
 }
