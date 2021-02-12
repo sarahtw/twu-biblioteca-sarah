@@ -16,7 +16,7 @@ import static org.junit.Assert.*;
 public class ViewTest {
 
     private View view;
-    private ArrayList<Book> books;
+    public ArrayList<Book> books;
 
     private final ByteArrayOutputStream outputContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
@@ -24,7 +24,7 @@ public class ViewTest {
     @Before
     public void setUp() throws Exception {
         view = new View();
-        books = new BookManagement().availableBooks;
+        books = new BookManagement().books;
         System.setOut(new PrintStream(outputContent));
     }
 
@@ -37,18 +37,6 @@ public class ViewTest {
     public void shouldReturnWelcomeMessage() {
         String message = view.showWelcomeMessage();
         assertEquals("Welcome to Biblioteca. Your one-stop-shop for great book titles in Bangalore!", message);
-    }
-
-    @Test
-    public void shouldReturnBooklist() {
-
-        String list = view.showBooklist();
-
-        String childishBookName = books.get(0).getName();
-        String detectiveBookName = books.get(0).getName();
-
-        assertTrue(list.contains(childishBookName) &&
-                list.contains(detectiveBookName));
     }
 
     @Test
@@ -75,6 +63,19 @@ public class ViewTest {
     }
 
     @Test
+    public void shouldReturnOnlyAvailableBooks(){
+        view.chooseMenuOption("1");
+        assertFalse(outputContent.toString().contains("Chromatica"));
+    }
+
+    @Test
+    public void shouldAskForTheNameOfTheBookToCheckout(){
+        view.chooseMenuOption("2");
+        assertThat(outputContent.toString(),
+                containsString("What's the name of the book you want to checkout?"));
+    }
+
+    @Test
     public void shouldSayIsAnInvalidOption(){
         view.chooseMenuOption("view books");
 
@@ -86,6 +87,13 @@ public class ViewTest {
         view.chooseBook("The Little Prince");
 
         assertThat(outputContent.toString(), containsString("Thank you! Enjoy the book"));
+    }
+
+    @Test
+    public void shouldReturnUnsuccessfulCheckoutMessage(){
+        view.chooseBook("Amor I love you");
+
+        assertThat(outputContent.toString(), containsString("Sorry, that book is not available"));
     }
 
 }

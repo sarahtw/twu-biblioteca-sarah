@@ -6,35 +6,40 @@ import java.util.ArrayList;
 
 public class BookManagement {
 
-    public static ArrayList<Book> availableBooks;
-    public static ArrayList<Book> rentedBooks;
+    public static ArrayList<Book> books;
 
     public BookManagement() {
-        availableBooks = this.createBookList();
-        rentedBooks = new ArrayList<Book>();
+        books = this.createBookList();
     }
 
     public ArrayList<Book> createBookList(){
         ArrayList<Book>books = new ArrayList<Book>();
 
-        Book childishBook = new Book(1, "The Little Prince", "Antoine de Saint-Exupéry", 1943);
-        Book detectiveBook = new Book(2, "The Mysterious Affair at Styles", "Agatha Christie", 1920);
+        Book childishBook = new Book(1, "The Little Prince", "Antoine de Saint-Exupéry", 1943, true);
+        Book detectiveBook = new Book(2, "The Mysterious Affair at Styles", "Agatha Christie", 1920, true);
+        Book musicBook = new Book(3, "Chromatica", "Lady Gaga", 2020, false);
 
         books.add(childishBook);
         books.add(detectiveBook);
+        books.add(musicBook);
 
         return books;
     }
 
-    public static void checkoutBook(String book_name) {
-        ArrayList<Book> bookListAux = availableBooks;
-        for (Book book: availableBooks) {
+    public void checkoutBook(String book_name) {
+        for (Book book : books) {
             if (book.getName().equals(book_name)) {
-                rentedBooks.add(book);
-                bookListAux.remove(book);
+                book.setAvailable(false);
             }
         }
-        availableBooks = bookListAux;
     }
 
+    public Boolean isBookAvailabe(String book_name) {
+        for (Book book : books) {
+            if (book.getName().equals(book_name)) {
+                return book.isAvailable();
+            }
+        }
+        return false;
+    }
 }

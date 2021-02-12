@@ -8,35 +8,32 @@ import org.junit.Test;
 import java.util.ArrayList;
 
 import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 public class BookManagementTest {
 
     private BookManagement bookManagement;
     private ArrayList<Book> availableBooks;
-    private ArrayList<Book> rentedBooks;
-
 
     @Before
     public void setUp() throws Exception {
         bookManagement = new BookManagement();
-        availableBooks = bookManagement.availableBooks;
-        rentedBooks = bookManagement.rentedBooks;
+        availableBooks = bookManagement.books;
     }
 
 
     @Test
     public void shouldCheckoutABook(){
-
-        String expectedAvailableBooks = String.valueOf(availableBooks.size() - 1);
-        String expectedRentedBooks = String.valueOf(rentedBooks.size() + 1);
-
         bookManagement.checkoutBook("The Little Prince");
 
-        String actualAvailableBooks = String.valueOf(availableBooks.size());
-        String actualRentedBooks = String.valueOf(rentedBooks.size());
+        Boolean actual = availableBooks.get(0).isAvailable();
+        assertThat(actual, is(false));
+    }
 
-        assertThat(actualAvailableBooks, containsString(expectedAvailableBooks));
-        assertThat(actualRentedBooks, containsString(expectedRentedBooks));
+    @Test
+    public void shouldReturnIfBookIsAvailable(){
+        assertThat(bookManagement.isBookAvailabe("Amor I love you"), is(false));
+        assertThat(bookManagement.isBookAvailabe("The Little Prince"), is(true));
     }
 }

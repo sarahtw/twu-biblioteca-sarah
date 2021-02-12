@@ -11,7 +11,7 @@ public class View {
     public BookManagement bookManagement = new BookManagement();
 
     public View() {
-        this.availableBooks = bookManagement.availableBooks;
+        this.availableBooks = bookManagement.books;
     }
 
     public String showWelcomeMessage() {
@@ -36,26 +36,21 @@ public class View {
             Choose an option
 
             1 - List of books
+            2 - Checkout book
             0 - Quit the application""");
-    }
-
-    public String showBooklist() {
-
-        StringBuilder message = new StringBuilder();
-
-        for (Book book: availableBooks) {
-            message.append(book.getName()).append("\n");
-        }
-
-        return message.toString();
     }
 
     public String showBooklistWithDetails() {
 
         StringBuilder message = new StringBuilder();
+        message.append("""
+                -----BOOKLIST-----
+                """);
 
         for (Book book: availableBooks) {
-            message.append(book.getBookDetails());
+            if (book.isAvailable()) {
+                message.append(book.getBookDetails());
+            }
         }
 
         return message.toString();
@@ -69,7 +64,15 @@ public class View {
             }
             case "1" -> {
                 System.out.println(this.showBooklistWithDetails());
-                this.showBooklist();
+                this.showBooklistWithDetails();
+                this.showMenuOptions();
+                return false;
+            }
+            case "2" -> {
+                System.out.println("What's the name of the book you want to checkout?");
+                Scanner sc = new Scanner(System.in);
+                String input_book_name = sc.nextLine();
+                this.chooseBook(input_book_name);
                 this.showMenuOptions();
                 return false;
             }
@@ -80,12 +83,16 @@ public class View {
         }
     }
 
-    private String showQuitTheApplicationMessage() {
-        return "See ya!";
+    public void chooseBook(String book_name) {
+        if (bookManagement.isBookAvailabe(book_name)) {
+            bookManagement.checkoutBook(book_name);
+            System.out.println("Thank you! Enjoy the book.");
+        } else {
+            System.out.println("Sorry, that book is not available.");
+        }
     }
 
-    public void chooseBook(String book_name) {
-        bookManagement.checkoutBook(book_name);
-        System.out.println("Thank you! Enjoy the book");
+    private String showQuitTheApplicationMessage() {
+        return "See ya!";
     }
 }
