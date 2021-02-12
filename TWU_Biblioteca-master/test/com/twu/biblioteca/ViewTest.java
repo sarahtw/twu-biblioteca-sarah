@@ -69,13 +69,6 @@ public class ViewTest {
     }
 
     @Test
-    public void shouldAskForTheNameOfTheBookToCheckout(){
-        view.chooseMenuOption("2");
-        assertThat(outputContent.toString(),
-                containsString("What's the name of the book you want to checkout?"));
-    }
-
-    @Test
     public void shouldSayIsAnInvalidOption(){
         view.chooseMenuOption("view books");
 
@@ -94,6 +87,13 @@ public class ViewTest {
         view.chooseBook("Amor I love you");
 
         assertThat(outputContent.toString(), containsString("Sorry, that book is not available"));
+    }
+
+    @Test
+    public void shouldNotifiedSuccessfulReturnMessage(){
+        view.returnBook("Chromatica");
+
+        assertThat(outputContent.toString(), containsString("Thank you for returning the book"));
     }
 
 }

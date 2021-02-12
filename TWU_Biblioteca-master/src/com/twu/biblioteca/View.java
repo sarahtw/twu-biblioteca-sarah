@@ -37,6 +37,7 @@ public class View {
 
             1 - List of books
             2 - Checkout book
+            3 - Return book
             0 - Quit the application""");
     }
 
@@ -76,8 +77,17 @@ public class View {
                 this.showMenuOptions();
                 return false;
             }
+            case "3" -> {
+                System.out.println("What's the name of the book you want to return?");
+                Scanner sc = new Scanner(System.in);
+                String input_book_name = sc.nextLine();
+                this.returnBook(input_book_name);
+                this.showMenuOptions();
+                return false;
+            }
             default -> {
                 System.out.println("Please select a valid option!");
+                this.showMenuOptions();
                 return false;
             }
         }
@@ -85,7 +95,7 @@ public class View {
 
     public void chooseBook(String book_name) {
         if (bookManagement.isBookAvailabe(book_name)) {
-            bookManagement.changeBookStatus(book_name, true);
+            bookManagement.changeBookStatus(book_name, false);
             System.out.println("Thank you! Enjoy the book.");
         } else {
             System.out.println("Sorry, that book is not available.");
@@ -94,5 +104,12 @@ public class View {
 
     private String showQuitTheApplicationMessage() {
         return "See ya!";
+    }
+
+    public void returnBook(String book_name) {
+        if (!bookManagement.isBookAvailabe(book_name)) {
+            bookManagement.changeBookStatus(book_name, true);
+            System.out.println("Thank you for returning the book");
+        }
     }
 }
