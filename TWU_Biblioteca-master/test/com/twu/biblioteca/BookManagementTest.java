@@ -16,21 +16,21 @@ public class BookManagementTest {
     private ArrayList<Book> availableBooks;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         bookManagement = new BookManagement();
         availableBooks = bookManagement.books;
     }
 
     @Test
     public void shouldCheckoutBook(){
-        bookManagement.changeBookStatus("The Little Prince", false);
+        bookManagement.changeBookStatusToRented("The Little Prince");
 
         Boolean actual = availableBooks.get(0).isAvailable();
         assertThat(actual, is(false));
     }
     @Test
     public void shouldReturnBook(){
-        bookManagement.changeBookStatus("Chromatica", true);
+        bookManagement.changeBookStatusToAvailable("Chromatica");
 
         Boolean actual = availableBooks.get(0).isAvailable();
         assertThat(actual, is(true));

@@ -14,15 +14,21 @@ public class View {
         this.books = bookManagement.books;
     }
 
+    public void openApp() {
+        System.out.println(showWelcomeMessage());
+        openMenu();
+    }
+
     public String showWelcomeMessage() {
         return "Welcome to Biblioteca. Your one-stop-shop for great book titles in Bangalore!";
     }
 
     public void openMenu(){
-        this.showMenuOptions();
         var quitApplication = false;
 
         while (!quitApplication) {
+            this.showMenuOptions();
+
             Scanner sc = new Scanner(System.in);
             String input = sc.nextLine();
 
@@ -57,8 +63,8 @@ public class View {
         return message.toString();
     }
 
-    public boolean chooseMenuOption(String selected_menu_option) {
-        switch (selected_menu_option) {
+    public boolean chooseMenuOption(String selectedMenuOption) {
+        switch (selectedMenuOption) {
             case "0" -> {
                 System.out.println(this.showQuitTheApplicationMessage());
                 return true;
@@ -66,15 +72,13 @@ public class View {
             case "1" -> {
                 System.out.println(this.showBookListWithDetails());
                 this.showBookListWithDetails();
-                this.showMenuOptions();
                 return false;
             }
             case "2" -> {
                 System.out.println("What's the name of the book you want to checkout?");
                 Scanner sc = new Scanner(System.in);
-                String input_book_name = sc.nextLine();
-                this.chooseBook(input_book_name);
-                this.showMenuOptions();
+                String inputBookName = sc.nextLine();
+                this.chooseBook(inputBookName);
                 return false;
             }
             case "3" -> {
@@ -82,20 +86,18 @@ public class View {
                 Scanner sc = new Scanner(System.in);
                 String input_book_name = sc.nextLine();
                 this.returnBook(input_book_name);
-                this.showMenuOptions();
                 return false;
             }
             default -> {
                 System.out.println("Please select a valid option!");
-                this.showMenuOptions();
                 return false;
             }
         }
     }
 
-    public void chooseBook(String book_name) {
-        if (bookManagement.isBookAvailableToCheckout(book_name)) {
-            bookManagement.changeBookStatus(book_name, false);
+    public void chooseBook(String bookName) {
+        if (bookManagement.isBookAvailableToCheckout(bookName)) {
+            bookManagement.changeBookStatusToRented(bookName);
             System.out.println("Thank you! Enjoy the book.");
         } else {
             System.out.println("Sorry, that book is not available.");
@@ -106,12 +108,13 @@ public class View {
         return "See ya!";
     }
 
-    public void returnBook(String book_name) {
-        if (bookManagement.isBookAvailableToReturn(book_name)) {
+    public void returnBook(String bookName) {
+        if (bookManagement.isBookAvailableToReturn(bookName)) {
+            bookManagement.changeBookStatusToAvailable(bookName);
             System.out.println("Thank you for returning the book");
-            bookManagement.changeBookStatus(book_name, true);
         } else {
             System.out.println("That is not a valid book to return.");
         }
     }
+
 }

@@ -26,30 +26,34 @@ public class BookManagement {
         return books;
     }
 
-    public void changeBookStatus(String book_name, Boolean status) {
+    public Book getBookByName(String bookName) {
         for (Book book : books) {
-            if (book.getName().equals(book_name)) {
-                book.setAvailable(status);
-            }
-        }
-    }
-
-    public Book getBookByName(String book_name) {
-        for (Book book : books) {
-            if (book.getName().equals(book_name)) {
+            if (book.getName().equals(bookName)) {
                 return book;
             }
         }
         return null;
     }
 
-    public Boolean isBookAvailableToCheckout(String book_name){
-        Book book = this.getBookByName(book_name);
+    public Boolean isBookAvailableToCheckout(String bookName){
+        Book book = this.getBookByName(bookName);
         return book != null && book.isAvailable();
     }
 
-    public Boolean isBookAvailableToReturn(String book_name){
-        Book book = this.getBookByName(book_name);
+    public Boolean isBookAvailableToReturn(String bookName){
+        Book book = this.getBookByName(bookName);
         return book != null && !book.isAvailable();
+    }
+
+    public void changeBookStatusToRented(String bookName) {
+        Book book = this.getBookByName(bookName);
+        int index = books.indexOf(book);
+        books.get(index).setAvailable(false);
+    }
+
+    public void changeBookStatusToAvailable(String bookName) {
+        Book book = this.getBookByName(bookName);
+        int index = books.indexOf(book);
+        books.get(index).setAvailable(true);
     }
 }
