@@ -2,9 +2,12 @@ package com.twu.biblioteca;
 
 import com.twu.database.Database;
 import com.twu.models.Book;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 
 import static org.hamcrest.CoreMatchers.containsString;
@@ -15,10 +18,19 @@ public class ViewTest {
     private View view;
     private Database database;
 
+    private final ByteArrayOutputStream outputContent = new ByteArrayOutputStream();
+    private final PrintStream originalOut = System.out;
+
     @Before
     public void setUp() throws Exception {
         view = new View();
         database = new Database();
+        System.setOut(new PrintStream(outputContent));
+    }
+
+    @After
+    public void restoreStreams() {
+        System.setOut(originalOut);
     }
 
     @Test
@@ -41,13 +53,13 @@ public class ViewTest {
     }
 
     @Test
-    public void shouldReturnBooklistWithDetails(){
+    public void shouldReturnBookListWithDetails(){
         String list = view.showBooklistWithDetails();
-        ArrayList<Book> booklist = database.bookList;
+        ArrayList<Book> bookList = database.bookList;
 
-        String childishBookName = booklist.get(0).getName();
-        String childishBookAuthor = booklist.get(0).getAuthor();
-        String childishBookYear = booklist.get(0).getYear().toString();
+        String childishBookName = bookList.get(0).getName();
+        String childishBookAuthor = bookList.get(0).getAuthor();
+        String childishBookYear = bookList.get(0).getYear().toString();
 
         assertTrue(list.contains(childishBookName) &&
                 list.contains(childishBookAuthor) &&
@@ -56,18 +68,24 @@ public class ViewTest {
 
     @Test
     public void shouldReturnMenuOption(){
-        String terminalMessage = view.showMenuOptions();
+        view.showMenuOptions();
 
-        assertThat(terminalMessage,
-                containsString("-----MENU-----\n" +
-                        "Choose an option\n\n" +
-                        "1 - List of books"));
+        assertThat(outputContent.toString(),
+                containsString("-----MENU-----\nChoose an option\n\n1 - List of books"));
     }
 
     @Test
-    public void shouldSayIsAnIvalidOption(){
-        String terminalMessage = view.chooseMenuOption("view books");
+    public void shouldSayIsAnInvalidOption(){
+        view.chooseMenuOption("view books");
 
-        assertThat(terminalMessage, containsString("Please select a valid option!"));
+        assertThat(outputContent.toString(), containsString("Please select a valid option!"));
     }
+
+    @Test
+    public void shouldQuitTheApplication(){
+        view.chooseMenuOption("2");
+
+        assertThat(outputContent.toString(), containsString("See ya!"));
+    }
+
 }
